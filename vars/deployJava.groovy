@@ -27,7 +27,7 @@ def call() {
      }
        
      sshagent(["${PRIVKEY_SERV_VM}"]) {
-       sh "ssh root@${URL_SERV_VM} systemctl restart ${NEXUS_ARTIFACT_ID}"  
+       sh "ssh -o StrictHostKeyChecking=no root@${URL_SERV_VM} 'nohup java -jar /opt/${NEXUS_ARTIFACT_ID}.jar > /opt/${NEXUS_ARTIFACT_ID}.log 2>&1 &'"  
     }
   }
 }
