@@ -5,7 +5,7 @@ def call() {
         timeout(time: 3, unit: 'MINUTES'){
           withCredentials([usernamePassword(credentialsId: "${NEXUS_CRED}", usernameVariable: 'NEXUS_ACC', passwordVariable: 'NEXUS_PASS')]){
             sshagent(["${PRIVKEY_SERV_VM}"]){
-              sh "ssh -o StrictHostKeyChecking=no root@${URL_SERV_VM} 'test -f /opt/${NEXUS_ARTIFACT_ID}.jar && cp /opt/${NEXUS_ARTIFACT_ID}.jar /opt/${NEXUS_ARTIFACT_ID}2.jar'"
+              sh "ssh -o StrictHostKeyChecking=no root@${URL_SERV_VM} 'test -f /opt/${NEXUS_ARTIFACT_ID}.jar && cp /opt/${NEXUS_ARTIFACT_ID}.jar /opt/${NEXUS_ARTIFACT_ID}2.jar || true'"
               sh "ssh root@${URL_SERV_VM} curl -v -u ${NEXUS_ACC} -o /opt/${NEXUS_ARTIFACT_ID}.jar http://${NEXUS_URL}/repository/${NEXUS_RELEASES_REPO}/${NEXUS_GROUP}/${NEXUS_ARTIFACT_ID}/${VERSION}/${NEXUS_ARTIFACT_ID}-${VERSION}-${env.BRANCH_NAME}.jar"
             }
           }
@@ -18,7 +18,7 @@ def call() {
          timeout(time: 3, unit: 'MINUTES'){
            withCredentials([usernamePassword(credentialsId: "${NEXUS_CRED}", usernameVariable: 'NEXUS_ACC', passwordVariable: 'NEXUS_PASS')]){
              sshagent(["${PRIVKEY_SERV_VM}"]){
-               sh "ssh -o StrictHostKeyChecking=no root@${URL_SERV_VM} 'test -f /opt/${NEXUS_ARTIFACT_ID}.jar && cp /opt/${NEXUS_ARTIFACT_ID}.jar /opt/${NEXUS_ARTIFACT_ID}2.jar'"
+               sh "ssh -o StrictHostKeyChecking=no root@${URL_SERV_VM} 'test -f /opt/${NEXUS_ARTIFACT_ID}.jar && cp /opt/${NEXUS_ARTIFACT_ID}.jar /opt/${NEXUS_ARTIFACT_ID}2.jar || true'"
                sh "ssh root@${URL_SERV_VM} curl -v -u ${NEXUS_ACC} -o /opt/${NEXUS_ARTIFACT_ID}.jar http://${NEXUS_URL}/repository/${NEXUS_RELEASES_REPO}/${NEXUS_GROUP}/${NEXUS_ARTIFACT_ID}/${VERSION}/${NEXUS_ARTIFACT_ID}-${VERSION}-${env.BRANCH_NAME}-${GIT_HASH}.jar "
              }
            }
