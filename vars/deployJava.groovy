@@ -1,6 +1,6 @@
 def call() {
   stage('Deploy artifact on VM'){
-     if(env.BRANCH_NAME == 'releases'){
+     if(env.BRANCH_NAME == 'release'){
       retry(2){
         timeout(time: 3, unit: 'MINUTES'){
           withCredentials([usernamePassword(credentialsId: "${NEXUS_CRED}", usernameVariable: 'NEXUS_ACC', passwordVariable: 'NEXUS_PASS')]){
